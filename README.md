@@ -6,7 +6,7 @@ from what is actually written in them. No guessing, no invented policy.
 Built as a learning project — a small RAG (retrieval-augmented generation)
 system written from scratch, including the similarity maths.
 
-**Live demo:** _(add your Streamlit URL here after deploying)_
+**Live demo:** https://ask-your-docs-612.streamlit.app/
 
 > The documents in `documents/` describe a fictional company, "Northfield
 > Trading". Nothing in them is real.
