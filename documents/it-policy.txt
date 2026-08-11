@@ -1,0 +1,46 @@
+NORTHFIELD TRADING CO. — IT & ACCEPTABLE USE POLICY
+
+PERSONAL USE OF COMPANY DEVICES
+Limited personal use of company laptops and phones is permitted outside working
+hours, provided it does not interfere with work, consume excessive bandwidth, or
+breach any section of this policy. Personal files stored on company devices are
+not backed up and may be erased without notice during maintenance.
+
+PROHIBITED ACTIVITY
+Company devices and networks must not be used to access illegal content, install
+unlicensed software, run cryptocurrency mining, or operate a personal business.
+Streaming video during core working hours is discouraged as it degrades network
+performance for the whole office.
+
+PASSWORDS AND ACCOUNTS
+All accounts require a password of at least 14 characters, changed every 180
+days. Passwords must never be shared, written down, or reused across services.
+Two factor authentication is mandatory for email, the HR portal, and any system
+holding customer data. Report a suspected compromise to IT within one hour.
+
+SOFTWARE INSTALLATION
+Employees may install software from the approved catalogue without permission.
+Anything outside the catalogue requires written IT approval before installation.
+Browser extensions count as software and follow the same rule.
+
+DATA HANDLING
+Customer data must never be copied to personal devices, personal cloud storage,
+or emailed to a personal address. Files containing customer records must stay
+within the company Google Workspace. Breaches of this section are treated as
+gross misconduct.
+
+REMOTE ACCESS AND VPN
+Staff working remotely must connect through the company VPN before accessing
+internal systems. Public wifi may only be used with the VPN active. The VPN
+must not be used to bypass regional content restrictions.
+
+DEVICE SECURITY
+Devices must lock automatically after five minutes of inactivity. Laptops must
+not be left unattended in vehicles or public spaces. A lost or stolen device
+must be reported to IT immediately so it can be wiped remotely.
+
+EMAIL AND PHISHING
+Treat unexpected attachments and payment requests as suspicious, even from known
+senders. Never approve a payment based on email instruction alone; confirm by
+phone using a number you already hold. Forward suspected phishing to
+security@northfield.example and then delete it.

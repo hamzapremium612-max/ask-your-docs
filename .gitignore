@@ -1,0 +1,7 @@
+# Never let secrets leave this machine.
+.env
+.streamlit/secrets.toml
+
+# Local noise - not part of the app.
+*.log
+__pycache__/
