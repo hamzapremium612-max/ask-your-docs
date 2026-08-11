@@ -14,15 +14,36 @@ load_dotenv()
 # On Streamlit Community Cloud it is in st.secrets (pasted into the dashboard).
 # On this laptop it is in the .env file. Try the cloud first, fall back to local
 # - so the exact same file works in both places with no editing.
+# Every branch below PRINTS what it did. A silent except here means a failed
+# deploy looks identical to a missing key - we would be guessing. print() goes
+# straight to the Streamlit Cloud log panel. The key itself is never printed.
 def get_secret(name):
     try:
         import streamlit as st
-        return st.secrets[name]
-    except Exception:
-        return os.getenv(name)
+        available = list(st.secrets.keys())
+        print("get_secret: st.secrets is readable. Keys present:", available)
+        value = st.secrets[name]
+        print("get_secret: FOUND", name, "in st.secrets (length", len(value), ")")
+        return value
+    except Exception as error:
+        print("get_secret: st.secrets failed ->", type(error).__name__, ":", error)
+
+    value = os.getenv(name)
+    print("get_secret: os.getenv fallback ->", "FOUND" if value else "NOT FOUND")
+    return value
 
 
 gemini_key = get_secret("GEMINI_API_KEY")
+
+# Fail here, with a useful sentence, instead of three frames deeper inside the
+# OpenAI library saying "Missing credentials".
+if not gemini_key:
+    raise RuntimeError(
+        "GEMINI_API_KEY not found.\n"
+        "  Locally: put it in a .env file next to this one.\n"
+        "  On Streamlit Cloud: Settings -> Secrets, in TOML format:\n"
+        '      GEMINI_API_KEY = "your-key-here"'
+    )
 
 # Failures get recorded here so we are never blind to what broke.
 logging.basicConfig(
