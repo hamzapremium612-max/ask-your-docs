@@ -45,12 +45,22 @@ if not gemini_key:
         '      GEMINI_API_KEY = "your-key-here"'
     )
 
-# Failures get recorded here so we are never blind to what broke.
+# Failures go to the CONSOLE, not a file. Streamlit Cloud's log panel shows
+# console output; a file written inside that container is unreachable by
+# anyone - us or a visitor. The invoice extractor learned this the hard way
+# in August and this app was never brought into line until now.
 logging.basicConfig(
-    filename="rag.log",
     level=logging.INFO,
     format="%(asctime)s  %(levelname)s  %(message)s",
 )
+
+
+# A distinct exception type, not a string match at the UI layer, so the app can
+# tell "the free demo is used up for today" apart from "something actually
+# broke". A visitor must never see the same message for both - one means come
+# back tomorrow, the other means something is wrong.
+class QuotaExhausted(RuntimeError):
+    pass
 
 ai = OpenAI(
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
@@ -114,13 +124,15 @@ def embed(text):
         except Exception as error:
             logging.warning("embed attempt " + str(attempt) + " failed: " + str(error))
             if is_quota_error(error):            # retrying a daily quota is pointless
-                logging.error("quota exhausted - not retrying")
-                raise RuntimeError("Daily free-tier quota reached. See rag.log.")
+                logging.error("quota exhausted while embedding - not retrying")
+                raise QuotaExhausted(
+                    "The free daily quota for this demo has been used up."
+                )
             time.sleep(attempt * 3)              # back off: 3s, then 6s, then 9s
 
     # No usable vector means nothing downstream can work - stop loudly.
     logging.error("embedding failed after 3 attempts")
-    raise RuntimeError("Embedding failed after 3 attempts. Check rag.log.")
+    raise RuntimeError("The AI service did not respond after 3 attempts.")
 
 
 # --- Step 3a: how aligned are two arrows? (cosine similarity) ---
@@ -212,7 +224,8 @@ nothing whatsoever related to the question."""
 
     # Here we CAN degrade gracefully - tell the user instead of crashing.
     logging.error("answer failed after 3 attempts for: " + question)
-    return "Sorry - the AI service did not respond after 3 attempts. See rag.log."
+    return ("Sorry - the AI service did not respond after three attempts. "
+            "Please try again in a moment.")
 
 
 # --- Phase A: build the library (chunk + embed) ---
